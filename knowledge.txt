@@ -1,0 +1,5 @@
+Retrieval-Augmented Generation (RAG) is a powerful architecture for building AI applications that can reason about specific, up-to-date, or proprietary information. The core idea is to combine the generative power of a Large Language Model (LLM) with an external knowledge retrieval system.
+
+The process works in two main phases. First, an offline indexing pipeline processes a corpus of documents. The documents are split into smaller chunks, and each chunk is converted into a numerical vector using an embedding model. These vectors are then stored in a specialized vector database.
+
+Second, during runtime, when a user asks a question, the question is also converted into a vector. The system uses this vector to perform a similarity search in the vector database, retrieving the most relevant document chunks. Finally, these chunks are passed along with the original question to the LLM, which uses the provided context to generate a factual, grounded answer. This approach significantly reduces hallucinations and allows the LLM to access information it was not trained on.

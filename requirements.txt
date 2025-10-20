@@ -1,0 +1,14 @@
+# Serving & Core
+fastapi[all]
+openai
+python-dotenv
+
+# RAG & Data Processing
+langchain
+langchain-text-splitters
+sentence-transformers
+chromadb
+
+# Quality & Testing
+pytest
+ruff

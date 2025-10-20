@@ -1,0 +1,18 @@
+# --- Secrets ---
+.env
+
+# --- Python Cache & Build Artifacts ---
+__pycache__/
+*.pyc
+*.egg-info/
+
+# --- Testing Artifacts ---
+.pytest_cache/
+
+# --- IDE/Editor Specific ---
+.vscode/
+
+# --- Generated Data Artifacts ---
+# The vector database is a generated artifact, not source code.
+# The indexer.py is the source of truth for the DB.
+chroma_db/

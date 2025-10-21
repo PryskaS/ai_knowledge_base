@@ -44,7 +44,7 @@ graph TD
         H -->|Factual Answer| F;
         F -->|JSON Response| E;
     end
-    
+    ```
 
 ## 🏁 Getting Started
 

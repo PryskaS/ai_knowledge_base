@@ -24,8 +24,80 @@ This project demonstrates the end-to-end construction of a production-ready Ques
 * **Standardized Infrastructure:** The application is fully containerized with **Docker** (including the vector database) and validated by a **GitHub Actions** pipeline, proving the robustness of our "AI service factory" pattern.
 
 ## 🏗️ System Architecture
-... (You can include the Mermaid diagram from the Portuguese version here) ...
+
+This diagram illustrates the two phases of the RAG system:
+
+```mermaid
+graph TD
+    subgraph "Phase 1: Indexing Pipeline (Offline)"
+        A[Documents .txt] --> B{Text Splitter};
+        B --> |Chunks| C{Embedding Model};
+        C --> |Vectors| D[(Chroma Vector DB)];
+    end
+
+    subgraph "Phase 2: RAG Service (Online)"
+        E[User] -->|Question| F(FastAPI Service);
+        F -->|Embed Question| G{Embedding Model};
+        G -->|Similarity Search| D;
+        D -->|Relevant Context| F;
+        F -->|Build Augmented Prompt| H[LLM];
+        H -->|Factual Answer| F;
+        F -->|JSON Response| E;
+    end
+
+
 
 ## 🏁 Getting Started
-... (The "Getting Started" section can be adapted from the Portuguese version) ...
+
+### Prerequisites
+
+* Git
+* Python 3.9+
+* Docker Desktop (running)
+* An OpenAI API Key
+
+### 1. Preparing the Knowledge Base (Indexing)
+
+This step needs to be run only once, or whenever the `knowledge.txt` file is updated.
+
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/PRYSKAS/ai_knowledge_base.git
+    cd ai_knowledge_base
+    ```
+2.  **Install dependencies:**
+    ```bash
+    pip install -r requirements.txt
+    ```
+3.  **(Optional) Customize Knowledge:** Edit the `knowledge.txt` file in the project root with your own text content.
+4.  **Run the Indexing Pipeline:**
+    ```bash
+    python -m indexing_pipeline.indexer
+    ```
+    This will create (or update) the `chroma_db` folder containing the vector embeddings of your knowledge base.
+
+### 2. Running the Q&A Service
+
+1.  **Set up environment variables:**
+    * Create a `.env` file from the example: `copy .env.example .env` (on Windows) or `cp .env.example .env` (on Unix/macOS).
+    * Add your `OPENAI_API_KEY` to the new `.env` file.
+
+2.  **Run locally using Uvicorn (for development):**
+    ```bash
+    uvicorn serving.main:app --reload --port 8001
+    ```
+    Access the API documentation and interact with the service at `http://127.0.0.1:8001/docs`.
+
+3.  **Run using Docker (Recommended for stable execution):**
+    * **Build the Docker image:**
+        ```bash
+        docker build -t ai-knowledge-base-service .
+        ```
+        *(This copies the `chroma_db` folder into the image)*
+    * **Run the container:**
+        ```bash
+        docker run -d -p 8001:8001 --env-file .env --name ai-kb-rag ai-knowledge-base-service
+        ```
+    Access the API at `http://127.0.0.1:8001/docs`.
+
 ---

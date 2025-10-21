@@ -24,28 +24,7 @@ This project demonstrates the end-to-end construction of a production-ready Ques
 * **Standardized Infrastructure:** The application is fully containerized with **Docker** (including the vector database) and validated by a **GitHub Actions** pipeline, proving the robustness of our "AI service factory" pattern.
 
 ## 🏗️ System Architecture
-
-This diagram illustrates the two phases of the RAG system:
-
-```mermaid
-graph TD
-    subgraph "Phase 1: Indexing Pipeline (Offline)"
-        A[Documents .txt] --> B{Text Splitter};
-        B --> |Chunks| C{Embedding Model};
-        C --> |Vectors| D[(Chroma Vector DB)];
-    end
-
-    subgraph "Phase 2: RAG Service (Online)"
-        E[User] -->|Question| F(FastAPI Service);
-        F -->|Embed Question| G{Embedding Model};
-        G -->|Similarity Search| D;
-        D -->|Relevant Context| F;
-        F -->|Build Augmented Prompt| H[LLM];
-        H -->|Factual Answer| F;
-        F -->|JSON Response| E;
-    end
-
-
+... (You can include the Mermaid diagram from the Portuguese version here) ...
 
 ## 🏁 Getting Started
 
